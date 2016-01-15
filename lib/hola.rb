@@ -1,0 +1,6 @@
+require 'hola/version'
+
+# doc...
+module Hola
+  # Your code goes here...
+end
