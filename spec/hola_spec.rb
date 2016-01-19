@@ -84,4 +84,22 @@ describe Hola do
       expect(last_response).to be_ok
     end
   end
+
+  describe 'routes with block' do
+    let(:app) do
+      class App < Hola::Application
+        get '/test' do
+          'Test block'
+        end
+      end
+
+      App.new
+    end
+
+    it 'can run route with block' do
+      get '/test'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Test block')
+    end
+  end
 end
