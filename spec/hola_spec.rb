@@ -16,6 +16,12 @@ class LandingController < Hola::BaseController
   end
 end
 
+class PostController < Hola::BaseController
+  def index
+    'Post page'
+  end
+end
+
 class QuotesController < Hola::BaseController
   def index
     'Quotes index'
@@ -25,6 +31,36 @@ class QuotesController < Hola::BaseController
   end
   def quotes
     'There are quotes'
+  end
+end
+
+class UsersController < Hola::BaseController
+  def index
+    'Index'
+  end
+
+  def show
+    "Show #{params[:id]}"
+  end
+
+  def new
+    'New'
+  end
+
+  def edit
+    'Edit'
+  end
+
+  def create
+    'Create'
+  end
+
+  def update
+    'Update'
+  end
+
+  def delete
+    'Delete'
   end
 end
 
@@ -74,6 +110,7 @@ describe Hola do
     let(:app) do
       class App < Hola::Application
         get '/', 'landing/index'
+        post '/post', 'post/index'
       end
 
       App.new
@@ -81,6 +118,11 @@ describe Hola do
 
     it 'can define route' do
       get '/'
+      expect(last_response).to be_ok
+    end
+
+    it 'can define post route' do
+      post '/post'
       expect(last_response).to be_ok
     end
   end
@@ -100,6 +142,58 @@ describe Hola do
       get '/test'
       expect(last_response).to be_ok
       expect(last_response.body).to include('Test block')
+    end
+  end
+
+  describe 'routes for resources' do
+    let(:app) do
+      class App < Hola::Application
+        resource :users
+      end
+
+      App.new
+    end
+
+    it 'has index action' do
+      get '/users'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Index')
+    end
+
+    it 'has new action' do
+      get '/users/new'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('New')
+    end
+
+    it 'has show action' do
+      get '/users/show/1'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Show')
+    end
+
+    it 'has edit action' do
+      get '/users/edit'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Edit')
+    end
+
+    it 'has create post action' do
+      post '/users/create'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Create')
+    end
+
+    it 'has update post action' do
+      post '/users/update'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Update')
+    end
+
+    it 'has delete action' do
+      get '/users/delete'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Delete')
     end
   end
 end
