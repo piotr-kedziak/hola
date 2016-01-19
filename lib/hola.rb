@@ -1,4 +1,5 @@
 require 'hola/version'
+require 'hola/base_controller'
 
 # doc...
 module Hola
@@ -59,21 +60,6 @@ module Hola
       Object.const_get(controller_to_class(controller))
     end
   end
-
-  class Controller
-    attr_reader :env
-
-    def initialize(env)
-      @env = env
-    end
-  end
-
-  # example:....
-  # class HomeController < Hola::Controller
-  #   def index
-  #     'Hola! espanioles!!!!!!'
-  #   end
-  # end
 
   class CantFindRouteException < StandardError
   end

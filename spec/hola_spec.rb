@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class HomeController < Hola::Controller
+class HomeController < Hola::BaseController
   def index
     '¡Hola! espanioles!!!!!!'
   end
@@ -10,13 +10,13 @@ class HomeController < Hola::Controller
   end
 end
 
-class LandingController < Hola::Controller
+class LandingController < Hola::BaseController
   def index
     'Landing page'
   end
 end
 
-class QuotesController < Hola::Controller
+class QuotesController < Hola::BaseController
   def index
     'Quotes index'
   end
@@ -74,7 +74,6 @@ describe Hola do
     let(:app) do
       class App < Hola::Application
         get '/', 'landing/index'
-        get '/hello/:name', 'home/name'
       end
 
       App.new
@@ -82,7 +81,6 @@ describe Hola do
 
     it 'can define route' do
       get '/'
-      puts last_response.body
       expect(last_response).to be_ok
     end
   end
